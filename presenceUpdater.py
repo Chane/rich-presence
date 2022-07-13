@@ -147,12 +147,13 @@ class PresenceUpdater:
             except KeyError:
                 pass
 
-            self.client.update(large_image=cover,
-                    small_image=small_image,
-                    small_text=playback_status,
-                    large_text=largeText,
-                    details=details,
-                    state=songTitle,
-                    start=start)
+            if playback_status != "Stopped":
+                self.client.update(large_image=cover,
+                        small_image=small_image,
+                        small_text=playback_status,
+                        large_text=largeText,
+                        details=details,
+                        state=songTitle,
+                        start=start)
 
             time.sleep(1)
