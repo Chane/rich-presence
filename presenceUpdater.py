@@ -66,7 +66,7 @@ class PresenceUpdater:
                 self.playerInterace = None
                 time.sleep(5)
 
-            except (pypresence.exceptions.InvalidID) as e:
+            except pypresence.exceptions.InvalidID as e:
                 self.writeDebug("Connection to Discord failed : %s" % str(e))
                 self.writeMessage("Reconnecting in 5s")
                 time.sleep(5)
