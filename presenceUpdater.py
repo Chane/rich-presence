@@ -4,12 +4,29 @@ import time
 import dbus
 import pypresence
 import discogs_client
+import argparse
 
 from config import APPLICATION_ID, DISCOG_USER_TOKEN
 
 class PresenceUpdater:
     def __init__(self):
-        logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+        parser = argparse.ArgumentParser();
+        parser.add_argument(
+            '-d', '--debug',
+            help = "Log debug information",
+            action = "store_const", dest = "loglevel", const = logging.DEBUG,
+            default = logging.WARNING
+        )
+
+        parser.add_argument(
+            '-v', '--verbose',
+            help = "Log verbose information",
+            action = "store_const", dest = "loglevel", const = logging.INFO
+        )
+
+        args = parser.parse_args();
+
+        logging.basicConfig(stream = sys.stdout, level = args.loglevel)
         self.logger = logging.getLogger(__name__)
         self.writeMessage("Initializing Presence Updater")
 
@@ -21,10 +38,12 @@ class PresenceUpdater:
         self.discogsClient = discogClient
 
     def writeMessage(self, message):
-        print("[INFO][PresenceUpdater]" + message)
+        self.logger.log(logging.INFO, message)
+        # print("[INFO][PresenceUpdater]" + message)
 
-    def writeError(self, message):
-        print("[ERROR][PresenceUpdater]" + message)
+    def writeDebug(self, message):
+        self.logger.log(logging.DEBUG, message)
+        # print("[ERROR][PresenceUpdater]" + message)
 
     def run(self):
         while True:
@@ -39,14 +58,14 @@ class PresenceUpdater:
                 self.presence_loop()
             
             except dbus.exceptions.DBusException as e:
-                self.writeError("Connection to Strawberry failed : %s" %str(e))
+                self.writeDebug("Connection to Strawberry failed : %s" %str(e))
                 self.writeMessage("Reconnecting in 5s")
                 self.player = None
                 self.playerInterace = None
                 time.sleep(5)
 
             except (pypresence.exceptions.InvalidID) as e:
-                self.writeError("Connection to Discord failed : %s" % str(e))
+                self.writeDebug("Connection to Discord failed : %s" % str(e))
                 self.writeMessage("Reconnecting in 5s")
                 time.sleep(5)
 
