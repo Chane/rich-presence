@@ -104,7 +104,6 @@ class PresenceUpdater:
                 details = "Idle"
                 songTitle = None
                 artist_music = None
-                # TODO: Check other sources to see if they should be displayed
             else:
                 temp_metadata = dict()
                 for key, value in metadata.items():
@@ -139,7 +138,6 @@ class PresenceUpdater:
 
             if playback_status == "Paused":
                 small_image = "pause_si"
-                # TODO: If paused also check other sources
 
             if playback_status == "Playing":
                 small_image = "play_si"
