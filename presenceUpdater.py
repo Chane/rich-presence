@@ -127,28 +127,27 @@ class PresenceUpdater:
 
                 largeText = songTitle + ' - ' + artist_music
 
-            if last_album_music != album_music:
+                if last_album_music != album_music:
+                    try:
+                        self.writeMessage("Calling Discogs for " + album_music)
+                        results = self.discogsClient.search(album_music, artist=artist_music, type='release')
+                        if results.count != 0:
+                            cover = self.discogsClient.release(results[0].id).images[0]['uri']
+                        last_album_music = album_music
+                    except KeyError:
+                        pass
+
+                if playback_status == "Paused":
+                    small_image = "pause_si"
+
+                if playback_status == "Playing":
+                    small_image = "play_si"
                 try:
-                    self.writeMessage("Calling Discogs for " + album_music)
-                    results = self.discogsClient.search(album_music, artist=artist_music, type='release')
-                    if results.count != 0:
-                        cover = self.discogsClient.release(results[0].id).images[0]['uri']
-                    last_album_music = album_music
+                    time_now = time.time()
+                    start = time_now - position
                 except KeyError:
                     pass
 
-            if playback_status == "Paused":
-                small_image = "pause_si"
-
-            if playback_status == "Playing":
-                small_image = "play_si"
-            try:
-                time_now = time.time()
-                start = time_now - position
-            except KeyError:
-                pass
-
-            if playback_status != "Stopped":
                 self.client.update(large_image=cover,
                         small_image=small_image,
                         small_text=playback_status,
