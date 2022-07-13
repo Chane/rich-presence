@@ -54,7 +54,7 @@ class PresenceUpdater:
                 self.player = self.bus.get_object("org.mpris.MediaPlayer2.strawberry", '/org/mpris/MediaPlayer2')
                 self.playerInterace = dbus.Interface(self.player, dbus_interface="org.freedesktop.DBus.Properties")
 
-                self.writeMessage("[Connecting to Discord")
+                self.writeMessage("Connecting to Discord")
                 self.client.connect()
 
                 self.presence_loop()
