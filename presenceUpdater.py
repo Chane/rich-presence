@@ -61,15 +61,15 @@ class PresenceUpdater:
             
             except dbus.exceptions.DBusException as e:
                 self.writeDebug("Connection to Strawberry failed : %s" %str(e))
-                self.writeMessage("Reconnecting in 5s")
+                self.writeMessage("Reconnecting in 30s")
                 self.player = None
                 self.playerInterace = None
-                time.sleep(5)
+                time.sleep(30)
 
             except pypresence.exceptions.InvalidID as e:
                 self.writeDebug("Connection to Discord failed : %s" % str(e))
-                self.writeMessage("Reconnecting in 5s")
-                time.sleep(5)
+                self.writeMessage("Reconnecting in 30s")
+                time.sleep(30)
 
             except socket_error as e:
                 if e.errno != errno.ECONNREFUSED:
