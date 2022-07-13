@@ -41,11 +41,9 @@ class PresenceUpdater:
 
     def writeMessage(self, message):
         self.logger.log(logging.INFO, message)
-        # print("[INFO][PresenceUpdater]" + message)
 
     def writeDebug(self, message):
         self.logger.log(logging.DEBUG, message)
-        # print("[ERROR][PresenceUpdater]" + message)
 
     def run(self):
         while True:
