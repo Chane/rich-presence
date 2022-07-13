@@ -104,6 +104,7 @@ class PresenceUpdater:
                 details = "Idle"
                 songTitle = None
                 artist_music = None
+                self.client.clear()
             else:
                 temp_metadata = dict()
                 for key, value in metadata.items():
