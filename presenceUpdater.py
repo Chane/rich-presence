@@ -5,6 +5,8 @@ import dbus
 import pypresence
 import discogs_client
 import argparse
+import errno
+from socket import error as socket_error
 
 from config import APPLICATION_ID, DISCOG_USER_TOKEN
 
@@ -68,6 +70,13 @@ class PresenceUpdater:
                 self.writeDebug("Connection to Discord failed : %s" % str(e))
                 self.writeMessage("Reconnecting in 5s")
                 time.sleep(5)
+
+            except socket_error as e:
+                if e.errno != errno.ECONNREFUSED:
+                    raise e
+                self.writeDebug("Connection to Discord failed : %s" % str(e))
+                self.writeMessage("Reconnecting in 30s")
+                time.sleep(30)
 
     def presence_loop(self):
         self.writeMessage("Reading data from Strawberry / Updating Discord")
