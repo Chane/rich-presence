@@ -101,9 +101,10 @@ class PresenceUpdater:
 
             if last_album_music != album_music:
                 try:
-                    self.writeMessage("Calling Discogs for {album_music}")
+                    self.writeMessage("Calling Discogs for " + album_music)
                     results = self.discogsClient.search(album_music, artist=artist_music, type='release')
-                    cover = self.discogsClient.release(results[0].id).images[0]['uri']
+                    if results.count != 0:
+                        cover = self.discogsClient.release(results[0].id).images[0]['uri']
                     last_album_music = album_music
                 except KeyError:
                     pass
