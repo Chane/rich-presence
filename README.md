@@ -20,3 +20,4 @@ Where `APPLICATION_ID` is obtained from creating an application on Discord and `
 ---
 ## Run as a background service on Ubuntu
 
+https://websofttechs.com/tutorials/how-to-setup-python-script-autorun-in-ubuntu-18-04/
